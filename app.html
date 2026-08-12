@@ -16,21 +16,14 @@ body{
 }
 
 header{
-    background:linear-gradient(135deg,#8b0000,#d97706);
+    background:linear-gradient(135deg,#7b0000,#d97706);
     color:white;
     padding:22px 15px;
     text-align:center;
 }
 
-header h1{
-    margin:0;
-    font-size:25px;
-}
-
-header p{
-    margin:7px 0 0;
-    opacity:.9;
-}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0}
 
 .container{
     max-width:900px;
@@ -38,73 +31,83 @@ header p{
     padding:18px;
 }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-}
-
 .card{
     background:white;
-    border-radius:15px;
-    padding:20px;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:16px;
     box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.card h2{
-    margin:0 0 8px;
-    font-size:19px;
-}
+h2{margin-top:0}
 
-.card p{
-    margin:0;
-    color:#666;
-}
-
-.icon{
-    font-size:32px;
-    margin-bottom:10px;
-}
-
-.section{
-    margin-top:20px;
-}
-
-.section h2{
-    margin-bottom:12px;
-}
-
-.quick{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
+input,textarea,select{
+    width:100%;
+    padding:13px;
+    margin:7px 0 12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:16px;
 }
 
 button{
     border:0;
-    border-radius:12px;
-    padding:14px;
+    border-radius:10px;
+    padding:13px 16px;
     background:#8b0000;
     color:white;
     font-size:16px;
     cursor:pointer;
+    margin:4px 2px;
 }
 
-button:hover{
-    opacity:.9;
+button.delete{background:#b91c1c}
+button.secondary{background:#555}
+button.green{background:#087f23}
+
+.customer{
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:14px;
+    margin-top:10px;
 }
 
-footer{
+.customer strong{
+    font-size:18px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:8px;
+    background:#fff1cc;
+    margin-top:7px;
+}
+
+.hidden{display:none}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.stat{
+    background:#fff;
+    padding:15px;
     text-align:center;
-    padding:25px 10px;
-    color:#777;
-    font-size:14px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+
+.stat b{
+    display:block;
+    font-size:23px;
+    margin-top:5px;
 }
 
 @media(max-width:600px){
-    .cards,.quick{
-        grid-template-columns:1fr;
-    }
+    .stats{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -118,72 +121,364 @@ footer{
 
 <div class="container">
 
-    <div class="section">
-        <h2>📊 Dashboard</h2>
+    <div class="stats">
+        <div class="stat">
+            👥 Customers
+            <b id="customerCount">0</b>
+        </div>
 
-        <div class="cards">
+        <div class="stat">
+            💰 Total Advance
+            <b>₹<span id="advanceTotal">0</span></b>
+        </div>
 
-            <div class="card">
-                <div class="icon">👥</div>
-                <h2>Customers</h2>
-                <p>यात्रियों और ग्राहकों की जानकारी</p>
-            </div>
-
-            <div class="card">
-                <div class="icon">🎫</div>
-                <h2>Bookings</h2>
-                <p>बुकिंग और सीट मैनेजमेंट</p>
-            </div>
-
-            <div class="card">
-                <div class="icon">💰</div>
-                <h2>Payments</h2>
-                <p>Advance और बाकी भुगतान</p>
-            </div>
-
-            <div class="card">
-                <div class="icon">🚐</div>
-                <h2>Vehicles</h2>
-                <p>गाड़ी और ड्राइवर की जानकारी</p>
-            </div>
-
+        <div class="stat">
+            💳 Total Balance
+            <b>₹<span id="balanceTotal">0</span></b>
         </div>
     </div>
 
-    <div class="section">
-        <h2>⚡ Quick Actions</h2>
+    <br>
 
-        <div class="quick">
-            <button onclick="newBooking()">➕ नई Booking</button>
-            <button onclick="newCustomer()">👤 नया Customer</button>
-            <button onclick="payment()">💰 Payment जोड़ें</button>
-            <button onclick="trip()">📅 नई यात्रा</button>
-        </div>
+    <div class="card">
+        <h2>➕ नया Customer / Booking</h2>
+
+        <input id="name" placeholder="ग्राहक का नाम">
+
+        <input id="mobile"
+               type="tel"
+               maxlength="10"
+               placeholder="मोबाइल नंबर">
+
+        <input id="place"
+               placeholder="पता / गाँव">
+
+        <input id="trip"
+               placeholder="यात्रा / Route">
+
+        <input id="date"
+               type="date">
+
+        <input id="total"
+               type="number"
+               min="0"
+               placeholder="कुल किराया ₹">
+
+        <input id="advance"
+               type="number"
+               min="0"
+               placeholder="जमा Advance ₹">
+
+        <textarea id="note"
+                  rows="3"
+                  placeholder="कोई अतिरिक्त जानकारी"></textarea>
+
+        <button onclick="saveCustomer()">
+            💾 Customer Save करें
+        </button>
+
+        <button class="secondary" onclick="clearForm()">
+            साफ करें
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>🔎 Customer List</h2>
+
+        <input id="search"
+               oninput="showCustomers()"
+               placeholder="नाम या मोबाइल से खोजें">
+
+        <div id="customerList"></div>
+    </div>
+
+    <div class="card">
+        <h2>💾 Backup & Restore</h2>
+
+        <p>
+            अपने डेटा का backup बनाकर सुरक्षित जगह रखें।
+        </p>
+
+        <button class="green" onclick="backupData()">
+            ⬇️ Backup Download
+        </button>
+
+        <br>
+
+        <input type="file"
+               id="restoreFile"
+               accept=".json">
+
+        <button class="secondary" onclick="restoreData()">
+            ⬆️ Backup Restore
+        </button>
     </div>
 
 </div>
 
-<footer>
-    Harshita Tour & Travels © 2026
-</footer>
-
 <script>
 
-function newBooking(){
-    alert("नई Booking का सिस्टम अगले चरण में तैयार होगा।");
+let customers =
+    JSON.parse(localStorage.getItem("harshitaCustomers")) || [];
+
+function saveCustomer(){
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const mobile =
+        document.getElementById("mobile").value.trim();
+
+    const place =
+        document.getElementById("place").value.trim();
+
+    const trip =
+        document.getElementById("trip").value.trim();
+
+    const date =
+        document.getElementById("date").value;
+
+    const total =
+        Number(document.getElementById("total").value) || 0;
+
+    const advance =
+        Number(document.getElementById("advance").value) || 0;
+
+    const note =
+        document.getElementById("note").value.trim();
+
+    if(!name){
+        alert("कृपया ग्राहक का नाम डालें।");
+        return;
+    }
+
+    if(mobile && !/^[0-9]{10}$/.test(mobile)){
+        alert("कृपया 10 अंकों का मोबाइल नंबर डालें।");
+        return;
+    }
+
+    if(advance > total && total > 0){
+        alert("Advance कुल किराए से ज्यादा नहीं हो सकता।");
+        return;
+    }
+
+    const customer = {
+        id: Date.now(),
+        name,
+        mobile,
+        place,
+        trip,
+        date,
+        total,
+        advance,
+        balance: Math.max(total - advance,0),
+        note
+    };
+
+    customers.push(customer);
+
+    saveData();
+    clearForm();
+    showCustomers();
+
+    alert("✅ Customer सफलतापूर्वक Save हो गया!");
 }
 
-function newCustomer(){
-    alert("Customer Management अगले चरण में तैयार होगा।");
+function saveData(){
+
+    localStorage.setItem(
+        "harshitaCustomers",
+        JSON.stringify(customers)
+    );
 }
 
-function payment(){
-    alert("Payment Management अगले चरण में तैयार होगा।");
+function showCustomers(){
+
+    const list =
+        document.getElementById("customerList");
+
+    const search =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    const filtered =
+        customers.filter(c =>
+            c.name.toLowerCase().includes(search) ||
+            c.mobile.includes(search)
+        );
+
+    list.innerHTML = "";
+
+    if(filtered.length === 0){
+        list.innerHTML =
+            "<p>अभी कोई Customer नहीं है।</p>";
+    }
+
+    filtered.forEach(c => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "customer";
+
+        div.innerHTML = `
+            <strong>👤 ${escapeHTML(c.name)}</strong><br>
+
+            📱 ${escapeHTML(c.mobile || "-")}<br>
+            📍 ${escapeHTML(c.place || "-")}<br>
+            🚐 ${escapeHTML(c.trip || "-")}<br>
+            📅 ${escapeHTML(c.date || "-")}<br>
+
+            💰 कुल: ₹${c.total}<br>
+            💵 Advance: ₹${c.advance}<br>
+
+            <span class="badge">
+                💳 बाकी: ₹${c.balance}
+            </span>
+
+            ${c.note ?
+            `<p>📝 ${escapeHTML(c.note)}</p>` : ""}
+
+            <br>
+
+            <button class="delete"
+                    onclick="deleteCustomer(${c.id})">
+                🗑️ Delete
+            </button>
+        `;
+
+        list.appendChild(div);
+    });
+
+    updateStats();
 }
 
-function trip(){
-    alert("Trip Management अगले चरण में तैयार होगा।");
+function deleteCustomer(id){
+
+    if(!confirm("क्या आप इस Customer को Delete करना चाहते हैं?")){
+        return;
+    }
+
+    customers =
+        customers.filter(c => c.id !== id);
+
+    saveData();
+    showCustomers();
 }
+
+function clearForm(){
+
+    document.getElementById("name").value="";
+    document.getElementById("mobile").value="";
+    document.getElementById("place").value="";
+    document.getElementById("trip").value="";
+    document.getElementById("date").value="";
+    document.getElementById("total").value="";
+    document.getElementById("advance").value="";
+    document.getElementById("note").value="";
+}
+
+function updateStats(){
+
+    document.getElementById("customerCount")
+        .textContent = customers.length;
+
+    const advance =
+        customers.reduce(
+            (sum,c)=>sum + Number(c.advance || 0),0
+        );
+
+    const balance =
+        customers.reduce(
+            (sum,c)=>sum + Number(c.balance || 0),0
+        );
+
+    document.getElementById("advanceTotal")
+        .textContent = advance;
+
+    document.getElementById("balanceTotal")
+        .textContent = balance;
+}
+
+function backupData(){
+
+    const data =
+        JSON.stringify(customers,null,2);
+
+    const blob =
+        new Blob([data],{type:"application/json"});
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href=url;
+
+    a.download =
+        "harshita-tour-backup.json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+function restoreData(){
+
+    const file =
+        document.getElementById("restoreFile").files[0];
+
+    if(!file){
+        alert("पहले backup file चुनें।");
+        return;
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload = function(e){
+
+        try{
+
+            const data =
+                JSON.parse(e.target.result);
+
+            if(!Array.isArray(data)){
+                throw new Error();
+            }
+
+            customers = data;
+
+            saveData();
+            showCustomers();
+
+            alert("✅ Backup सफलतापूर्वक Restore हो गया!");
+
+        }catch(error){
+
+            alert("❌ Backup file सही नहीं है।");
+        }
+    };
+
+    reader.readAsText(file);
+}
+
+/*
+  User द्वारा डाला गया text HTML की तरह render न हो,
+  इसलिए basic escaping.
+*/
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+showCustomers();
 
 </script>
 
