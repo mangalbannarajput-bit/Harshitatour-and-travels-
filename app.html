@@ -15,15 +15,100 @@ body{
     color:#222;
 }
 
+/* LOGIN */
+#loginScreen{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:linear-gradient(135deg,#7b0000,#d97706);
+}
+
+.loginBox{
+    width:100%;
+    max-width:380px;
+    background:white;
+    padding:28px 22px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 35px rgba(0,0,0,.25);
+}
+
+.logo{
+    font-size:48px;
+}
+
+.loginBox h1{
+    margin:8px 0;
+    color:#7b0000;
+    font-size:24px;
+}
+
+.loginBox p{
+    color:#666;
+}
+
+.pin{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:22px;
+    text-align:center;
+    letter-spacing:6px;
+    margin:12px 0;
+}
+
+.loginBtn{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    background:#7b0000;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+}
+
+.error{
+    color:#c00;
+    min-height:22px;
+    margin:8px 0;
+}
+
+/* APP */
+#app{
+    display:none;
+}
+
 header{
     background:linear-gradient(135deg,#7b0000,#d97706);
     color:white;
-    padding:22px 15px;
+    padding:20px 15px;
     text-align:center;
+    position:relative;
 }
 
-header h1{margin:0;font-size:25px}
-header p{margin:7px 0 0}
+header h1{
+    margin:0;
+    font-size:24px;
+}
+
+header p{
+    margin:6px 0 0;
+}
+
+.logout{
+    position:absolute;
+    right:12px;
+    top:18px;
+    background:rgba(255,255,255,.2);
+    border:1px solid rgba(255,255,255,.4);
+    padding:8px 10px;
+    border-radius:8px;
+    color:white;
+}
 
 .container{
     max-width:900px;
@@ -31,20 +116,42 @@ header p{margin:7px 0 0}
     padding:18px;
 }
 
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.stat{
+    background:white;
+    padding:16px;
+    text-align:center;
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.stat b{
+    display:block;
+    font-size:22px;
+    margin-top:6px;
+}
+
 .card{
     background:white;
     border-radius:16px;
     padding:18px;
-    margin-bottom:16px;
+    margin-top:16px;
     box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-h2{margin-top:0}
+.card h2{
+    margin-top:0;
+}
 
-input,textarea,select{
+input,textarea{
     width:100%;
     padding:13px;
-    margin:7px 0 12px;
+    margin:6px 0 12px;
     border:1px solid #ddd;
     border-radius:10px;
     font-size:16px;
@@ -54,26 +161,25 @@ button{
     border:0;
     border-radius:10px;
     padding:13px 16px;
-    background:#8b0000;
+    background:#7b0000;
     color:white;
     font-size:16px;
     cursor:pointer;
-    margin:4px 2px;
 }
 
-button.delete{background:#b91c1c}
-button.secondary{background:#555}
-button.green{background:#087f23}
+button.secondary{
+    background:#555;
+}
+
+button.delete{
+    background:#b91c1c;
+}
 
 .customer{
     border:1px solid #ddd;
     border-radius:12px;
     padding:14px;
     margin-top:10px;
-}
-
-.customer strong{
-    font-size:18px;
 }
 
 .badge{
@@ -84,142 +190,280 @@ button.green{background:#087f23}
     margin-top:7px;
 }
 
-.hidden{display:none}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
-
-.stat{
-    background:#fff;
-    padding:15px;
-    text-align:center;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,.07);
-}
-
-.stat b{
-    display:block;
-    font-size:23px;
-    margin-top:5px;
-}
-
 @media(max-width:600px){
-    .stats{grid-template-columns:1fr}
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .logout{
+        position:static;
+        margin-top:12px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+
+    <div class="loginBox">
+
+        <div class="logo">🚐</div>
+
+        <h1>Harshita Tour & Travels</h1>
+
+        <p>Private Manager</p>
+
+        <input
+            id="pinInput"
+            class="pin"
+            type="password"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="PIN"
+            onkeydown="if(event.key==='Enter') login()"
+        >
+
+        <div id="loginError" class="error"></div>
+
+        <button class="loginBtn" onclick="login()">
+            🔐 Login
+        </button>
+
+        <p style="font-size:13px;margin-top:18px">
+            पहली बार इस्तेमाल कर रहे हैं तो अपना नया PIN सेट करें।
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN APP -->
+<div id="app">
+
 <header>
+
     <h1>🚐 Harshita Tour & Travels</h1>
     <p>Private Business Manager</p>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+
 </header>
+
 
 <div class="container">
 
     <div class="stats">
+
         <div class="stat">
             👥 Customers
             <b id="customerCount">0</b>
         </div>
 
         <div class="stat">
-            💰 Total Advance
+            💰 Advance
             <b>₹<span id="advanceTotal">0</span></b>
         </div>
 
         <div class="stat">
-            💳 Total Balance
+            💳 बाकी
             <b>₹<span id="balanceTotal">0</span></b>
         </div>
+
     </div>
 
-    <br>
 
     <div class="card">
+
         <h2>➕ नया Customer / Booking</h2>
 
         <input id="name" placeholder="ग्राहक का नाम">
 
-        <input id="mobile"
-               type="tel"
-               maxlength="10"
-               placeholder="मोबाइल नंबर">
+        <input
+            id="mobile"
+            type="tel"
+            maxlength="10"
+            placeholder="मोबाइल नंबर"
+        >
 
-        <input id="place"
-               placeholder="पता / गाँव">
+        <input id="place" placeholder="गाँव / पता">
 
-        <input id="trip"
-               placeholder="यात्रा / Route">
+        <input id="trip" placeholder="यात्रा / Route">
 
-        <input id="date"
-               type="date">
+        <input id="date" type="date">
 
-        <input id="total"
-               type="number"
-               min="0"
-               placeholder="कुल किराया ₹">
+        <input
+            id="total"
+            type="number"
+            min="0"
+            placeholder="कुल किराया ₹"
+        >
 
-        <input id="advance"
-               type="number"
-               min="0"
-               placeholder="जमा Advance ₹">
+        <input
+            id="advance"
+            type="number"
+            min="0"
+            placeholder="Advance ₹"
+        >
 
-        <textarea id="note"
-                  rows="3"
-                  placeholder="कोई अतिरिक्त जानकारी"></textarea>
+        <textarea
+            id="note"
+            rows="3"
+            placeholder="अतिरिक्त जानकारी"
+        ></textarea>
 
         <button onclick="saveCustomer()">
-            💾 Customer Save करें
+            💾 Save Customer
         </button>
 
         <button class="secondary" onclick="clearForm()">
             साफ करें
         </button>
+
     </div>
 
+
     <div class="card">
+
         <h2>🔎 Customer List</h2>
 
-        <input id="search"
-               oninput="showCustomers()"
-               placeholder="नाम या मोबाइल से खोजें">
+        <input
+            id="search"
+            oninput="showCustomers()"
+            placeholder="नाम या मोबाइल से खोजें"
+        >
 
         <div id="customerList"></div>
+
     </div>
 
+
     <div class="card">
-        <h2>💾 Backup & Restore</h2>
+
+        <h2>💾 Backup</h2>
 
         <p>
-            अपने डेटा का backup बनाकर सुरक्षित जगह रखें।
+            डेटा का backup समय-समय पर डाउनलोड करके सुरक्षित रखें।
         </p>
 
-        <button class="green" onclick="backupData()">
+        <button onclick="backupData()">
             ⬇️ Backup Download
         </button>
 
-        <br>
-
-        <input type="file"
-               id="restoreFile"
-               accept=".json">
+        <input
+            type="file"
+            id="restoreFile"
+            accept=".json"
+        >
 
         <button class="secondary" onclick="restoreData()">
-            ⬆️ Backup Restore
+            ⬆️ Restore Backup
         </button>
+
     </div>
 
 </div>
 
+</div>
+
+
 <script>
 
+/* =========================
+   BASIC PIN LOGIN
+========================= */
+
+const PIN_KEY = "harshitaManagerPIN";
+
+function login(){
+
+    const input =
+        document.getElementById("pinInput").value;
+
+    const error =
+        document.getElementById("loginError");
+
+    if(!input){
+        error.textContent = "PIN डालें।";
+        return;
+    }
+
+    let savedPIN =
+        localStorage.getItem(PIN_KEY);
+
+    /*
+      पहली बार:
+      user द्वारा डाला गया PIN save होगा।
+    */
+    if(!savedPIN){
+
+        if(input.length < 4){
+            error.textContent =
+                "PIN कम से कम 4 अंक का रखें।";
+            return;
+        }
+
+        localStorage.setItem(PIN_KEY,input);
+
+        openApp();
+        return;
+    }
+
+    if(input === savedPIN){
+
+        openApp();
+
+    }else{
+
+        error.textContent =
+            "❌ PIN गलत है।";
+    }
+}
+
+function openApp(){
+
+    document.getElementById("loginScreen")
+        .style.display="none";
+
+    document.getElementById("app")
+        .style.display="block";
+
+    document.getElementById("pinInput")
+        .value="";
+
+    showCustomers();
+}
+
+function logout(){
+
+    document.getElementById("app")
+        .style.display="none";
+
+    document.getElementById("loginScreen")
+        .style.display="flex";
+
+    document.getElementById("pinInput")
+        .value="";
+
+    document.getElementById("loginError")
+        .textContent="";
+}
+
+
+/* =========================
+   CUSTOMER DATA
+========================= */
+
 let customers =
-    JSON.parse(localStorage.getItem("harshitaCustomers")) || [];
+    JSON.parse(
+        localStorage.getItem("harshitaCustomers")
+    ) || [];
+
 
 function saveCustomer(){
 
@@ -247,42 +491,63 @@ function saveCustomer(){
     const note =
         document.getElementById("note").value.trim();
 
+
     if(!name){
-        alert("कृपया ग्राहक का नाम डालें।");
+
+        alert("ग्राहक का नाम डालें।");
         return;
     }
 
-    if(mobile && !/^[0-9]{10}$/.test(mobile)){
-        alert("कृपया 10 अंकों का मोबाइल नंबर डालें।");
+
+    if(mobile &&
+       !/^[0-9]{10}$/.test(mobile)){
+
+        alert("मोबाइल नंबर 10 अंकों का होना चाहिए।");
         return;
     }
+
 
     if(advance > total && total > 0){
+
         alert("Advance कुल किराए से ज्यादा नहीं हो सकता।");
         return;
     }
 
-    const customer = {
-        id: Date.now(),
-        name,
-        mobile,
-        place,
-        trip,
-        date,
-        total,
-        advance,
-        balance: Math.max(total - advance,0),
-        note
-    };
 
-    customers.push(customer);
+    customers.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        mobile:mobile,
+
+        place:place,
+
+        trip:trip,
+
+        date:date,
+
+        total:total,
+
+        advance:advance,
+
+        balance:Math.max(total-advance,0),
+
+        note:note
+
+    });
+
 
     saveData();
+
     clearForm();
+
     showCustomers();
 
-    alert("✅ Customer सफलतापूर्वक Save हो गया!");
+    alert("✅ Customer Save हो गया।");
 }
+
 
 function saveData(){
 
@@ -291,6 +556,7 @@ function saveData(){
         JSON.stringify(customers)
     );
 }
+
 
 function showCustomers(){
 
@@ -307,64 +573,87 @@ function showCustomers(){
             c.mobile.includes(search)
         );
 
-    list.innerHTML = "";
 
-    if(filtered.length === 0){
+    list.innerHTML="";
+
+
+    if(filtered.length===0){
+
         list.innerHTML =
             "<p>अभी कोई Customer नहीं है।</p>";
+
     }
 
-    filtered.forEach(c => {
+
+    filtered.forEach(c=>{
 
         const div =
             document.createElement("div");
 
-        div.className = "customer";
+        div.className="customer";
 
-        div.innerHTML = `
+
+        div.innerHTML=`
+
             <strong>👤 ${escapeHTML(c.name)}</strong><br>
 
             📱 ${escapeHTML(c.mobile || "-")}<br>
+
             📍 ${escapeHTML(c.place || "-")}<br>
+
             🚐 ${escapeHTML(c.trip || "-")}<br>
+
             📅 ${escapeHTML(c.date || "-")}<br>
 
             💰 कुल: ₹${c.total}<br>
+
             💵 Advance: ₹${c.advance}<br>
 
             <span class="badge">
                 💳 बाकी: ₹${c.balance}
             </span>
 
-            ${c.note ?
-            `<p>📝 ${escapeHTML(c.note)}</p>` : ""}
+            ${
+                c.note
+                ? `<p>📝 ${escapeHTML(c.note)}</p>`
+                : ""
+            }
 
             <br>
 
-            <button class="delete"
-                    onclick="deleteCustomer(${c.id})">
+            <button
+                class="delete"
+                onclick="deleteCustomer(${c.id})">
                 🗑️ Delete
             </button>
         `;
 
+
         list.appendChild(div);
+
     });
+
 
     updateStats();
 }
 
+
 function deleteCustomer(id){
 
-    if(!confirm("क्या आप इस Customer को Delete करना चाहते हैं?")){
+    if(!confirm(
+        "क्या आप यह Customer Delete करना चाहते हैं?"
+    )){
         return;
     }
 
     customers =
-        customers.filter(c => c.id !== id);
+        customers.filter(c=>c.id!==id);
 
     saveData();
+
     showCustomers();
 }
+
 
 function clearForm(){
 
@@ -378,38 +667,59 @@ function clearForm(){
     document.getElementById("note").value="";
 }
 
-function updateStats(){
 
-    document.getElementById("customerCount")
-        .textContent = customers.length;
+function updateStats(){
 
     const advance =
         customers.reduce(
-            (sum,c)=>sum + Number(c.advance || 0),0
+            (sum,c)=>sum+Number(c.advance||0),0
         );
 
     const balance =
         customers.reduce(
-            (sum,c)=>sum + Number(c.balance || 0),0
+            (sum,c)=>sum+Number(c.balance||0),0
         );
 
+
+    document.getElementById("customerCount")
+        .textContent=customers.length;
+
     document.getElementById("advanceTotal")
-        .textContent = advance;
+        .textContent=advance;
 
     document.getElementById("balanceTotal")
-        .textContent = balance;
+        .textContent=balance;
 }
+
+
+/* =========================
+   BACKUP
+========================= */
 
 function backupData(){
 
-    const data =
-        JSON.stringify(customers,null,2);
+    const backup = {
+
+        version:1,
+
+        createdAt:
+            new Date().toISOString(),
+
+        customers:customers
+
+    };
+
 
     const blob =
-        new Blob([data],{type:"application/json"});
+        new Blob(
+            [JSON.stringify(backup,null,2)],
+            {type:"application/json"}
+        );
+
 
     const url =
         URL.createObjectURL(blob);
+
 
     const a =
         document.createElement("a");
@@ -424,59 +734,95 @@ function backupData(){
     URL.revokeObjectURL(url);
 }
 
+
 function restoreData(){
 
     const file =
-        document.getElementById("restoreFile").files[0];
+        document.getElementById("restoreFile")
+        .files[0];
+
 
     if(!file){
+
         alert("पहले backup file चुनें।");
         return;
     }
 
+
     const reader =
         new FileReader();
 
-    reader.onload = function(e){
+
+    reader.onload=function(e){
 
         try{
 
-            const data =
+            const backup =
                 JSON.parse(e.target.result);
 
-            if(!Array.isArray(data)){
+
+            if(!backup ||
+               !Array.isArray(backup.customers)){
+
                 throw new Error();
             }
 
-            customers = data;
+
+            if(!confirm(
+                "पुराना local data backup से replace होगा। जारी रखें?"
+            )){
+                return;
+            }
+
+
+            customers =
+                backup.customers;
+
 
             saveData();
+
             showCustomers();
 
-            alert("✅ Backup सफलतापूर्वक Restore हो गया!");
+            alert(
+                "✅ Backup Restore हो गया।"
+            );
+
 
         }catch(error){
 
-            alert("❌ Backup file सही नहीं है।");
+            alert(
+                "❌ Backup file सही नहीं है।"
+            );
         }
+
     };
+
 
     reader.readAsText(file);
 }
 
-/*
-  User द्वारा डाला गया text HTML की तरह render न हो,
-  इसलिए basic escaping.
-*/
+
+/* =========================
+   SECURITY HELPER
+========================= */
+
 function escapeHTML(text){
 
     return String(text)
+
         .replace(/&/g,"&amp;")
+
         .replace(/</g,"&lt;")
+
         .replace(/>/g,"&gt;")
+
         .replace(/"/g,"&quot;")
+
         .replace(/'/g,"&#039;");
 }
+
+
+/* START */
 
 showCustomers();
 
