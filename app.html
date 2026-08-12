@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harshita Tour & Travels Manager</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#8b0000,#d97706);
+    color:white;
+    padding:22px 15px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    font-size:25px;
+}
+
+header p{
+    margin:7px 0 0;
+    opacity:.9;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:18px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.card h2{
+    margin:0 0 8px;
+    font-size:19px;
+}
+
+.card p{
+    margin:0;
+    color:#666;
+}
+
+.icon{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.section{
+    margin-top:20px;
+}
+
+.section h2{
+    margin-bottom:12px;
+}
+
+.quick{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:14px;
+    background:#8b0000;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+footer{
+    text-align:center;
+    padding:25px 10px;
+    color:#777;
+    font-size:14px;
+}
+
+@media(max-width:600px){
+    .cards,.quick{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚐 Harshita Tour & Travels</h1>
+    <p>Private Business Manager</p>
+</header>
+
+<div class="container">
+
+    <div class="section">
+        <h2>📊 Dashboard</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">👥</div>
+                <h2>Customers</h2>
+                <p>यात्रियों और ग्राहकों की जानकारी</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🎫</div>
+                <h2>Bookings</h2>
+                <p>बुकिंग और सीट मैनेजमेंट</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">💰</div>
+                <h2>Payments</h2>
+                <p>Advance और बाकी भुगतान</p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🚐</div>
+                <h2>Vehicles</h2>
+                <p>गाड़ी और ड्राइवर की जानकारी</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>⚡ Quick Actions</h2>
+
+        <div class="quick">
+            <button onclick="newBooking()">➕ नई Booking</button>
+            <button onclick="newCustomer()">👤 नया Customer</button>
+            <button onclick="payment()">💰 Payment जोड़ें</button>
+            <button onclick="trip()">📅 नई यात्रा</button>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    Harshita Tour & Travels © 2026
+</footer>
+
+<script>
+
+function newBooking(){
+    alert("नई Booking का सिस्टम अगले चरण में तैयार होगा।");
+}
+
+function newCustomer(){
+    alert("Customer Management अगले चरण में तैयार होगा।");
+}
+
+function payment(){
+    alert("Payment Management अगले चरण में तैयार होगा।");
+}
+
+function trip(){
+    alert("Trip Management अगले चरण में तैयार होगा।");
+}
+
+</script>
+
+</body>
+</html>
